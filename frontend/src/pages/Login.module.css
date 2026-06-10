@@ -1,0 +1,86 @@
+*, *::before, *::after { box-sizing: border-box; }
+.page {
+  min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+}
+
+/* Brand panel */
+.brand {
+  background: linear-gradient(145deg, #1e3a8a 0%, #1d4ed8 60%, #2563eb 100%);
+  color: #fff; padding: 60px 56px;
+  display: flex; flex-direction: column; justify-content: center; gap: 32px;
+}
+.brandInner { display: flex; align-items: center; gap: 12px; }
+.brandName { font-size: 22px; font-weight: 700; letter-spacing: -0.4px; }
+.brandTagline { font-size: 16px; line-height: 1.6; color: rgba(255,255,255,0.75); max-width: 340px; }
+.brandFeatures { display: flex; flex-direction: column; gap: 10px; }
+.feature { display: flex; align-items: center; gap: 10px; font-size: 14px; color: rgba(255,255,255,0.85); }
+.feature span { color: #93c5fd; font-weight: 700; }
+.brandIcon { color: #93c5fd; flex-shrink: 0; transition: transform 0.3s; }
+.brandInner:hover .brandIcon { transform: rotate(15deg) scale(1.1); }
+.featureIcon { color: #93c5fd; flex-shrink: 0; }
+
+/* Form panel */
+.formPanel {
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center; padding: 40px 24px;
+}
+.formCard {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 40px; width: 100%; max-width: 420px;
+  box-shadow: var(--shadow-lg);
+}
+.formTitle { font-size: 22px; font-weight: 700; color: var(--text); margin: 0 0 4px; }
+.formSub   { font-size: 13px; color: var(--text-3); margin: 0 0 24px; }
+
+/* Tabs */
+.tabs { display: flex; background: var(--surface-2); border-radius: 10px; padding: 4px; gap: 4px; margin-bottom: 24px; }
+.tab  { flex: 1; padding: 9px; background: transparent; border: none; border-radius: 8px; font-family: inherit; font-size: 13px; font-weight: 500; color: var(--text-3); cursor: pointer; transition: all 0.18s; }
+.tab:hover { color: var(--text); }
+.tabActive { background: var(--surface); color: var(--text); font-weight: 600; box-shadow: var(--shadow-sm); }
+
+/* Fields */
+.form  { display: flex; flex-direction: column; gap: 16px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 13px; font-weight: 600; color: var(--text-2); }
+.req  { color: var(--danger); }
+.field input {
+  background: var(--surface-2); border: 1.5px solid var(--border);
+  border-radius: 10px; color: var(--text); font-family: inherit;
+  font-size: 14px; padding: 11px 14px; outline: none;
+  transition: border-color 0.18s, background 0.18s;
+}
+.field input:focus { border-color: var(--accent); background: var(--surface); }
+.field input::placeholder { color: var(--text-4); }
+.hint { font-size: 11px; color: var(--text-4); }
+
+/* Error */
+.error { background: var(--danger-bg); border: 1px solid var(--danger-bd); border-radius: 8px; padding: 10px 14px; color: var(--danger); font-size: 13px; }
+
+/* Button */
+.btn {
+  width: 100%; padding: 13px; background: var(--accent); color: #fff; border: none;
+  border-radius: 10px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+  transition: background 0.18s, transform 0.1s; display: flex; align-items: center;
+  justify-content: center; min-height: 46px; margin-top: 4px;
+}
+.btn:hover:not(:disabled) { background: var(--accent-h); }
+.btn:active:not(:disabled) { transform: scale(0.99); }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin { animation: spin 1s linear infinite; }
+
+/* Footer */
+.footer { text-align: center; margin-top: 20px; }
+.footerLink { color: var(--accent); text-decoration: none; font-size: 13px; }
+.footerLink:hover { text-decoration: underline; }
+.adminHint { margin-top: 16px; padding: 10px 14px; background: var(--surface-2); border-radius: 8px; font-size: 11px; color: var(--text-4); text-align: center; }
+.adminHint code { background: var(--surface-3); padding: 2px 6px; border-radius: 4px; color: var(--text-3); font-size: 11px; }
+
+@media (max-width: 768px) {
+  .page { grid-template-columns: 1fr; }
+  .brand { display: none; }
+  .formPanel { padding: 24px 16px; }
+  .formCard { padding: 28px 24px; }
+}

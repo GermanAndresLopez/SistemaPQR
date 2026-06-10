@@ -1,0 +1,102 @@
+.bar {
+  height: 60px;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--border);
+  gap: 16px;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.brand {
+  display: flex; align-items: center; gap: 9px;
+  text-decoration: none; color: var(--text);
+  font-size: 15px; font-weight: 700; letter-spacing: -0.3px; flex-shrink: 0;
+}
+.brandIcon { color: var(--accent); transition: transform 0.3s ease; }
+.brand:hover .brandIcon { transform: rotate(15deg) scale(1.1); }
+
+.nav { display: flex; align-items: center; gap: 2px; flex: 1; justify-content: center; }
+.navItem {
+  display: flex; align-items: center; gap: 7px;
+  color: var(--text-3); text-decoration: none;
+  font-size: 13px; font-weight: 500;
+  padding: 7px 13px; border-radius: 8px;
+  transition: color 0.15s, background 0.15s; position: relative;
+}
+.navItem svg { transition: transform 0.2s ease; flex-shrink: 0; }
+.navItem:hover { color: var(--text); background: var(--surface-3); }
+.navItem:hover svg { transform: translateY(-1px); }
+.navItemActive { color: var(--accent) !important; background: var(--accent-bg) !important; font-weight: 600 !important; }
+.navItemActive::after {
+  content: ''; position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%);
+  width: 20px; height: 2px; background: var(--accent); border-radius: 2px 2px 0 0;
+}
+
+.actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+.themeBtn {
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text-3); cursor: pointer;
+  transition: all 0.15s;
+}
+.themeBtn:hover { color: var(--accent); border-color: var(--accent-bd); background: var(--accent-bg); }
+
+.userChip {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 5px 12px; font-size: 13px; color: var(--text-3);
+}
+.btnLogout {
+  display: flex; align-items: center; gap: 6px;
+  background: transparent; border: 1px solid var(--border); color: var(--text-3);
+  font-family: inherit; font-size: 13px; font-weight: 500;
+  padding: 6px 14px; border-radius: 8px; cursor: pointer; transition: all 0.15s;
+}
+.btnLogout:hover { color: var(--danger); border-color: var(--danger-bd); background: var(--danger-bg); }
+.btnLogout svg { transition: transform 0.2s ease; }
+.btnLogout:hover svg { transform: translateX(2px); }
+.btnLogin {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--accent); color: #fff; text-decoration: none;
+  font-size: 13px; font-weight: 600; padding: 7px 16px; border-radius: 8px;
+  transition: background 0.15s, transform 0.1s;
+}
+.btnLogin:hover { background: var(--accent-h); transform: translateY(-1px); }
+
+/* ── Variante meet/chat — responde al tema ── */
+.barDark {
+  background: var(--meet-header-bg);
+  border-bottom: 1px solid var(--meet-header-bd);
+  backdrop-filter: blur(12px);
+}
+.barDark .brand        { color: var(--meet-header-text); }
+.barDark .brandIcon    { color: var(--accent); }
+.barDark .navItem      { color: var(--meet-chip-text); }
+.barDark .navItem:hover { color: var(--meet-header-text); background: var(--meet-chip-bg); }
+.barDark .navItemActive { color: var(--accent) !important; background: var(--accent-bg) !important; }
+.barDark .navItemActive::after { background: var(--accent); }
+.barDark .themeBtn     { background: var(--meet-chip-bg); border-color: var(--meet-chip-bd); color: var(--meet-chip-text); }
+.barDark .themeBtn:hover { color: var(--accent); border-color: var(--accent-bd); background: var(--accent-bg); }
+.barDark .userChip     { background: var(--meet-chip-bg); border-color: var(--meet-chip-bd); color: var(--meet-chip-text); }
+.barDark .btnLogout    { border-color: var(--meet-chip-bd); color: var(--meet-chip-text); }
+.barDark .btnLogout:hover { color: var(--danger); border-color: var(--danger-bd); background: var(--danger-bg); }
+.barDark .btnLogin     { background: var(--accent); color: #fff; }
+
+@media (max-width: 768px) {
+  .nav span { display: none; }
+  .navItem { padding: 8px; }
+  .btnLogout span { display: none; }
+  .userChip span { display: none; }
+}
+@media (max-width: 480px) {
+  .bar { padding: 0 14px; }
+  .brand span { display: none; }
+}
