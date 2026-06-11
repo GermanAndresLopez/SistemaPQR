@@ -62,6 +62,12 @@ variable "db_allocated_storage" {
   default     = 20
 }
 
+variable "db_backup_retention_period" {
+  description = "Días de retención automática de backups RDS (0 para deshabilitar, útil en Free Tier)"
+  type        = number
+  default     = 0
+}
+
 # ─── Secretos y configuración de la aplicación ──────────────────────────────────
 
 variable "jwt_secret" {
@@ -142,8 +148,32 @@ variable "telegram_enabled" {
 
 # ─── Imagen del backend ──────────────────────────────────────────────────────
 
+variable "backend_image_repository" {
+  description = "Nombre completo del repositorio de la imagen del backend (Docker Hub o ECR)."
+  type        = string
+  default     = "gandreslopez/valeria-backend"
+}
+
 variable "backend_image_tag" {
-  description = "Tag de la imagen del backend en ECR a desplegar"
+  description = "Tag de la imagen del backend a desplegar"
   type        = string
   default     = "latest"
+}
+
+variable "frontend_image_repository" {
+  description = "Nombre completo del repositorio de la imagen del frontend (Docker Hub o ECR)."
+  type        = string
+  default     = "gandreslopez/valeria-frontend"
+}
+
+variable "frontend_image_tag" {
+  description = "Tag de la imagen del frontend a desplegar"
+  type        = string
+  default     = "latest"
+}
+
+variable "frontend_container_port" {
+  description = "Puerto en el que escucha el contenedor del frontend"
+  type        = number
+  default     = 80
 }

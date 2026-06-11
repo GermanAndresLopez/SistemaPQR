@@ -4,7 +4,7 @@ Provisiona toda la infraestructura para desplegar el sistema PQR en AWS:
 
 - **VPC** con subredes públicas (ALB, NAT) y privadas (ECS, RDS) en 2 AZs.
 - **RDS PostgreSQL** (privado, accesible solo desde ECS).
-- **ECR** para la imagen Docker del backend.
+- **Docker Hub** para la imagen Docker del backend, según se configure en `terraform.tfvars`.
 - **ECS Fargate** (1 tarea) ejecutando la API + bots de WhatsApp/Telegram, detrás de un **ALB**.
 - **EFS** para persistir la sesión de WhatsApp (`wa-auth/`) entre redespliegues.
 - **SSM Parameter Store** (SecureString) para todos los secretos de la app.
@@ -33,20 +33,15 @@ terraform plan
 terraform apply
 ```
 
-La primera vez, `aws_ecs_service.backend` se crea pero las tareas fallarán hasta que exista una imagen en ECR (paso 3) — esto es normal, `apply` no falla por eso.
+La primera vez, `aws_ecs_service.backend` se crea pero las tareas fallarán hasta que exista una imagen del backend disponible en el repositorio configurado (paso 3) — esto es normal, `apply` no falla por eso.
 
-## 3. Construir y subir la imagen del backend a ECR
+## 3. Construir y subir la imagen del backend a Docker Hub
 
 ```powershell
-$ECR_URL = terraform output -raw ecr_repository_url
-$REGION  = terraform output -raw alb_dns_name -replace ".*", "us-east-1"  # o usa tu región directamente
-
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_URL
-
 cd ..\backend
 docker build -t pqr-backend .
-docker tag pqr-backend:latest "${ECR_URL}:latest"
-docker push "${ECR_URL}:latest"
+docker tag pqr-backend:latest gandreslopez/valeria-backend:latest
+docker push gandreslopez/valeria-backend:latest
 ```
 
 ECS desplegará la imagen automáticamente en la siguiente reconciliación, o puedes forzarlo:

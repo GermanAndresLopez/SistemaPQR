@@ -31,6 +31,27 @@ resource "aws_lb_target_group" "backend" {
   }
 }
 
+resource "aws_lb_target_group" "frontend" {
+  name        = "${var.project_name}-frontend-tg"
+  port        = var.frontend_container_port
+  protocol    = "HTTP"
+  vpc_id      = aws_vpc.main.id
+  target_type = "ip"
+
+  health_check {
+    path                = "/"
+    healthy_threshold   = 2
+    unhealthy_threshold = 5
+    interval            = 30
+    timeout             = 10
+    matcher             = "200"
+  }
+
+  tags = {
+    Name = "${var.project_name}-frontend-tg"
+  }
+}
+
 # HTTP en el puerto 80. Para HTTPS hace falta un dominio propio + certificado
 # ACM y un listener 443 adicional con redirección desde el 80 — opcional,
 # se puede agregar más adelante sin cambiar el resto de la infraestructura.
@@ -41,6 +62,23 @@ resource "aws_lb_listener" "http" {
 
   default_action {
     type             = "forward"
+    target_group_arn = aws_lb_target_group.frontend.arn
+  }
+}
+
+# Rule: forward /api/* to backend target group
+resource "aws_lb_listener_rule" "api" {
+  listener_arn = aws_lb_listener.http.arn
+  priority     = 100
+
+  action {
+    type             = "forward"
     target_group_arn = aws_lb_target_group.backend.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/api/*"]
+    }
   }
 }

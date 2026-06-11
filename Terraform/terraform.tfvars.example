@@ -26,5 +26,8 @@ telegram_bot_token = ""
 # whatsapp_enabled = false
 # telegram_enabled = false
 
-# Tag de la imagen ya subida a ECR (ver README para el flujo de build/push)
-backend_image_tag = "latest"
+# Repositorio y tag de la imagen del backend en Docker Hub (o ECR si cambias la URL).
+backend_image_repository = "gandreslopez/valeria-backend"
+backend_image_tag        = "latest"
+frontend_image_repository = "gandreslopez/valeria-frontend"
+frontend_image_tag        = "latest"

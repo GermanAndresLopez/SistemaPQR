@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(curl -s http://localhost:3001/)",
+      "Bash(dir -Recurse -Include \"*.md\",\"*.env*\",\"*.config.js\",\"*.config.json\")",
+      "Bash(\\\\.git\")",
+      "Bash(node -e \"const db = require\\('./src/models/database'\\); const usuarios = db.prepare\\('SELECT id, username, role FROM usuarios'\\).all\\(\\); console.log\\(JSON.stringify\\(usuarios, null, 2\\)\\);\")",
+      "Bash(node --input-type=module -e ' *)",
+      "Bash(npx vite *)",
+      "Bash(terraform validate *)",
+      "Bash(dir /b)",
+      "Bash(node -e ' *)"
+    ]
+  }
+}

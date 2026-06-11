@@ -13,15 +13,8 @@ output "rds_endpoint" {
   value       = aws_db_instance.main.address
 }
 
-output "ecr_repository_url" {
-  description = "URL del repositorio ECR del backend (para docker push)"
-  value       = aws_ecr_repository.backend.repository_url
-}
 
-output "frontend_bucket_name" {
-  description = "Nombre del bucket S3 donde se sube el build del frontend"
-  value       = aws_s3_bucket.frontend.bucket
-}
+/* frontend is now served via ALB -> CloudFront origin. S3 bucket not used. */
 
 output "ecs_cluster_name" {
   description = "Nombre del cluster de ECS"
