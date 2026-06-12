@@ -10,8 +10,7 @@
       "Bash(npx vite *)",
       "Bash(terraform validate *)",
       "Bash(dir /b)",
-      "Bash(node -e ' *)",
-      "Bash(terraform apply *)"
+      "Bash(node -e ' *)"
     ]
   }
 }

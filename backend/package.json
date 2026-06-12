@@ -6,6 +6,7 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "@aws-sdk/client-lambda": "^3.1066.0",
     "@whiskeysockets/baileys": "^7.0.0-rc13",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
@@ -15,7 +16,6 @@
     "groq-sdk": "^1.2.1",
     "jsonwebtoken": "^9.0.3",
     "node-telegram-bot-api": "^0.67.0",
-    "nodemailer": "^8.0.9",
     "openai": "^6.39.0",
     "pg": "^8.13.1",
     "qrcode-terminal": "^0.12.0",

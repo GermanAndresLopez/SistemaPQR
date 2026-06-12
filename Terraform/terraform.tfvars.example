@@ -31,3 +31,10 @@ backend_image_repository = "gandreslopez/valeria-backend"
 backend_image_tag        = "latest"
 frontend_image_repository = "gandreslopez/valeria-frontend"
 frontend_image_tag        = "latest"
+
+# ─── Credenciales de Docker Hub ──────────────────────────────────────────────
+# Evitan el "429 Too Many Requests" (rate limit de pulls anonimos) al
+# descargar las imagenes del backend/frontend desde ECS.
+# Crea un Personal Access Token en https://hub.docker.com/settings/security
+dockerhub_username = "tu_usuario_dockerhub"
+dockerhub_token    = "dckr_pat_..."

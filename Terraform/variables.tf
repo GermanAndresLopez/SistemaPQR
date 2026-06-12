@@ -177,3 +177,19 @@ variable "frontend_container_port" {
   type        = number
   default     = 80
 }
+
+# ─── Credenciales de Docker Hub (evitar rate limit 429 en pulls anonimos) ──────
+
+variable "dockerhub_username" {
+  description = "Usuario de Docker Hub para autenticar los pulls de imagenes desde ECS"
+  type        = string
+  sensitive   = true
+  default     = ""
+}
+
+variable "dockerhub_token" {
+  description = "Personal Access Token de Docker Hub asociado a dockerhub_username"
+  type        = string
+  sensitive   = true
+  default     = ""
+}

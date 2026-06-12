@@ -1,0 +1,9 @@
+{
+  "name": "pqr-email-sender",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "nodemailer": "^8.0.9"
+  }
+}

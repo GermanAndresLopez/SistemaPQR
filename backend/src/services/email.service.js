@@ -1,31 +1,26 @@
-const nodemailer = require("nodemailer");
+const { LambdaClient, InvokeCommand } = require("@aws-sdk/client-lambda");
 
 const APP_URL = process.env.APP_URL || "http://localhost:5173";
-const FROM    = process.env.EMAIL_FROM || `"Sistema PQR" <${process.env.EMAIL_USER}>`;
+const EMAIL_LAMBDA_FUNCTION_NAME = process.env.EMAIL_LAMBDA_FUNCTION_NAME;
 
-function crearTransporte() {
-  if (!process.env.EMAIL_HOST || !process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    return null;
-  }
-  return nodemailer.createTransport({
-    host:   process.env.EMAIL_HOST,
-    port:   parseInt(process.env.EMAIL_PORT) || 587,
-    secure: process.env.EMAIL_SECURE === "true",
-    auth:   { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
-  });
-}
+const lambda = EMAIL_LAMBDA_FUNCTION_NAME ? new LambdaClient({}) : null;
 
+// El envío real (SMTP) ocurre en la Lambda "email-sender": se invoca de
+// forma asíncrona ("Event") para no bloquear la petición HTTP.
 async function enviar(to, subject, html) {
-  const transport = crearTransporte();
-  if (!transport) {
+  if (!lambda) {
     console.log(`[Email] Sin configurar — omitido: ${subject} → ${to}`);
     return;
   }
   try {
-    await transport.sendMail({ from: FROM, to, subject, html });
-    console.log(`[Email] Enviado a ${to}: ${subject}`);
+    await lambda.send(new InvokeCommand({
+      FunctionName: EMAIL_LAMBDA_FUNCTION_NAME,
+      InvocationType: "Event",
+      Payload: Buffer.from(JSON.stringify({ to, subject, html })),
+    }));
+    console.log(`[Email] Encolado a ${to}: ${subject}`);
   } catch (err) {
-    console.error(`[Email] Error al enviar a ${to}:`, err.message);
+    console.error(`[Email] Error al invocar la Lambda para ${to}:`, err.message);
   }
 }
 

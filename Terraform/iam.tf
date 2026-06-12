@@ -45,6 +45,21 @@ resource "aws_iam_role_policy" "ecs_ssm_access" {
   policy = data.aws_iam_policy_document.ecs_ssm_access.json
 }
 
+# Permite a ECS leer las credenciales de Docker Hub para autenticar el pull
+# de las imagenes (repositoryCredentials en ecs.tf).
+data "aws_iam_policy_document" "ecs_dockerhub_secret_access" {
+  statement {
+    actions   = ["secretsmanager:GetSecretValue"]
+    resources = [aws_secretsmanager_secret.dockerhub.arn]
+  }
+}
+
+resource "aws_iam_role_policy" "ecs_dockerhub_secret_access" {
+  name   = "${var.project_name}-ecs-dockerhub-secret-access"
+  role   = aws_iam_role.ecs_execution.id
+  policy = data.aws_iam_policy_document.ecs_dockerhub_secret_access.json
+}
+
 # ─── Task role: usado por el contenedor en ejecución ────────────────────────────
 # (acceso al punto de montaje EFS para la sesión de WhatsApp)
 
@@ -74,4 +89,19 @@ resource "aws_iam_role_policy" "ecs_task_efs_access" {
   name   = "${var.project_name}-ecs-task-efs-access"
   role   = aws_iam_role.ecs_task.id
   policy = data.aws_iam_policy_document.ecs_task_efs_access.json
+}
+
+# Permite al backend (servicios "backend" y "api") invocar la Lambda que
+# envía los correos del sistema (ver lambda.tf y email.service.js).
+data "aws_iam_policy_document" "ecs_task_invoke_email_lambda" {
+  statement {
+    actions   = ["lambda:InvokeFunction"]
+    resources = [aws_lambda_function.email_sender.arn]
+  }
+}
+
+resource "aws_iam_role_policy" "ecs_task_invoke_email_lambda" {
+  name   = "${var.project_name}-ecs-task-invoke-email-lambda"
+  role   = aws_iam_role.ecs_task.id
+  policy = data.aws_iam_policy_document.ecs_task_invoke_email_lambda.json
 }

@@ -29,9 +29,17 @@ resource "aws_security_group" "ecs" {
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    description     = "Trafico desde el ALB"
+    description     = "Trafico desde el ALB hacia el backend"
     from_port       = var.container_port
     to_port         = var.container_port
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb.id]
+  }
+
+  ingress {
+    description     = "Trafico desde el ALB hacia el frontend"
+    from_port       = var.frontend_container_port
+    to_port         = var.frontend_container_port
     protocol        = "tcp"
     security_groups = [aws_security_group.alb.id]
   }
