@@ -5,7 +5,7 @@
 > _(Completar — nombre completo de cada integrante)_
 > - Estudiante 1
 > - Estudiante 2
-> - Estudiante 3
+> - Estudiante 
 
 > _(Completar — datos de la institución)_
 > - **Universidad / Institución:**
